@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xmi:XMI xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SoaML="http://www.example.org/SoaML" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xsi:schemaLocation="http://www.example.org/SoaML ../Metamodel/SoaML.ecore http://www.eclipse.org/uml2/5.0.0/UML ../Metamodel/uml.ecore">
+  <uml:Model xmi:id="_ibLxQI_AEeqct-kbFtk7bA"/>
+  <SoaML:SoaMLModel xmi:id="_ibLxQY_AEeqct-kbFtk7bA"/>
+  <SoaML:Participant xmi:id="_ibLxQo_AEeqct-kbFtk7bA" name="Studente">
+    <requisitions xmi:id="_ibLxQ4_AEeqct-kbFtk7bA" name="Accedi al delphi"/>
+    <requisitions xmi:id="_ibLxRI_AEeqct-kbFtk7bA" name="Seleziona esame"/>
+    <requisitions xmi:id="_ibLxRY_AEeqct-kbFtk7bA" name="Prenota esame"/>
+    <services xmi:id="_ibLxRo_AEeqct-kbFtk7bA" name="Controllo negativo"/>
+    <services xmi:id="_ibLxR4_AEeqct-kbFtk7bA" name="Controllo negativo"/>
+    <services xmi:id="_ibLxSI_AEeqct-kbFtk7bA" name="Conferma ricevuta"/>
+    <services xmi:id="_ibLxSY_AEeqct-kbFtk7bA"/>
+  </SoaML:Participant>
+  <SoaML:Participant xmi:id="_ibLxSo_AEeqct-kbFtk7bA" name="Piattaforma">
+    <requisitions xmi:id="_ibLxS4_AEeqct-kbFtk7bA" name="Credenziali errate"/>
+    <requisitions xmi:id="_ibLxTI_AEeqct-kbFtk7bA" name="Requisiti non soddisfatti"/>
+    <requisitions xmi:id="_ibLxTY_AEeqct-kbFtk7bA" name="Invia conferma"/>
+    <services xmi:id="_ibLxTo_AEeqct-kbFtk7bA" name="Controllo credenziali"/>
+    <services xmi:id="_ibLxT4_AEeqct-kbFtk7bA" name="Gestisci prenotazione"/>
+    <services xmi:id="_ibLxUI_AEeqct-kbFtk7bA" name="Esame scelto"/>
+    <services xmi:id="_ibLxUY_AEeqct-kbFtk7bA" name="Credenziali ricevute"/>
+  </SoaML:Participant>
+  <SoaML:ServiceArchitecture xmi:id="_ibLxUo_AEeqct-kbFtk7bA" name="Initiating Process"/>
+  <SoaML:ServiceArchitecture xmi:id="_ibLxU4_AEeqct-kbFtk7bA" name="Non-Initiating Process"/>
+  <SoaML:ServiceContract xmi:id="_ibLxVI_AEeqct-kbFtk7bA" name="Accedi al delphi->Credenziali ricevute" provider="_ibLxSo_AEeqct-kbFtk7bA" consumer="_ibLxQo_AEeqct-kbFtk7bA"/>
+  <SoaML:ServiceContract xmi:id="_ibLxVY_AEeqct-kbFtk7bA" name="Credenziali errate->Controllo negativo" provider="_ibLxQo_AEeqct-kbFtk7bA" consumer="_ibLxSo_AEeqct-kbFtk7bA"/>
+  <SoaML:ServiceContract xmi:id="_ibLxVo_AEeqct-kbFtk7bA" name="Requisiti non soddisfatti->Controllo negativo" provider="_ibLxQo_AEeqct-kbFtk7bA" consumer="_ibLxSo_AEeqct-kbFtk7bA"/>
+  <SoaML:ServiceContract xmi:id="_ibLxV4_AEeqct-kbFtk7bA" name="Prenota esame->Esame scelto" provider="_ibLxSo_AEeqct-kbFtk7bA" consumer="_ibLxQo_AEeqct-kbFtk7bA"/>
+  <SoaML:ServiceContract xmi:id="_ibLxWI_AEeqct-kbFtk7bA" name="Invia conferma->Conferma ricevuta" provider="_ibLxQo_AEeqct-kbFtk7bA" consumer="_ibLxSo_AEeqct-kbFtk7bA"/>
+</xmi:XMI>
