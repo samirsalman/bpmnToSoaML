@@ -4,7 +4,6 @@ modeltype soaml_metamodel uses "http://www.example.org/SoaML";
 
 transformation bpmn2soaml(in bpmn:bpmn_metamodel, out soaml:soaml_metamodel);
 property participantSeq : Sequence(bpmn_metamodel::Participant) = null;
-property processSeq : Sequence(bpmn_metamodel::Process) = null;
 
 
 
@@ -15,7 +14,6 @@ bpmn.rootObjects()[bpmn_metamodel::DocumentRoot]->map Model2Model();
 
 mapping bpmn_metamodel::DocumentRoot :: Model2Model() : soaml_metamodel::SoaMLModel{
 participantSeq := self.definitions[Definitions].rootElements[Collaboration].participants[Participant];
-processSeq := self.definitions[Definitions].rootElements[Process];
 //Dalla root definiamo il mapping ai processi che saranno le nostre service architecture
 packagedElement += self.definitions[Definitions].rootElements[Process] -> map Process2ServiceArchitecture();
 //Definiamo inoltre il mapping alla collaboration che comprende i participant del modello
@@ -95,3 +93,4 @@ name := self.name;
 mapping bpmn_metamodel::ExclusiveGateway :: ExclusiveGateway2ServiceChannel() : ServiceChannel{
 name := self.name;
 }
+
