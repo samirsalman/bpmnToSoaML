@@ -43,6 +43,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="services" upperBound="-1"
         eType="#//ServicePort" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="processRef" eType="#//ServiceArchitecture"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ServiceChannel" eSuperTypes="uml.ecore#//Connector"/>
   <eClassifiers xsi:type="ecore:EClass" name="ParticipantArchitecture" eSuperTypes="uml.ecore#//Class"/>
@@ -62,10 +63,12 @@
         eType="ecore:EClass uml.ecore#//CallOperationAction" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="controlFlowNode" upperBound="-1"
         eType="ecore:EClass uml.ecore#//ControlFlow" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="requestPortNode" upperBound="-1"
-        eType="#//RequestPort" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sinterfaceNode" upperBound="-1"
+        eType="#//ServiceInterface" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateCatchEventNode"
-        upperBound="-1" eType="#//ServicePort" containment="true"/>
+        upperBound="-1" eType="#//ServiceChannel" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="exclusiveGatewayNode" upperBound="-1"
+        eType="#//ServiceChannel" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ValueObject" eSuperTypes="uml.ecore#//Class"/>
   <eClassifiers xsi:type="ecore:EClass" name="MessageType" eSuperTypes="#//ValueObject">
