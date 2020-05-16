@@ -1,0 +1,97 @@
+modeltype bpmn_metamodel uses "http://www.omg.org/spec/BPMN/20100524/MODEL";
+modeltype uml_metamodel uses "http://www.eclipse.org/uml2/5.0.0/UML";
+modeltype soaml_metamodel uses "http://www.example.org/SoaML";
+
+transformation bpmn2soaml(in bpmn:bpmn_metamodel, out soaml:soaml_metamodel);
+property participantSeq : Sequence(bpmn_metamodel::Participant) = null;
+property processSeq : Sequence(bpmn_metamodel::Process) = null;
+
+
+
+main() {
+//Partendo dal metamodello BPMN definiamo il primo mapping verso la radice del modello SoaML
+bpmn.rootObjects()[bpmn_metamodel::DocumentRoot]->map Model2Model();
+}
+
+mapping bpmn_metamodel::DocumentRoot :: Model2Model() : soaml_metamodel::SoaMLModel{
+participantSeq := self.definitions[Definitions].rootElements[Collaboration].participants[Participant];
+processSeq := self.definitions[Definitions].rootElements[Process];
+//Dalla root definiamo il mapping ai processi che saranno le nostre service architecture
+packagedElement += self.definitions[Definitions].rootElements[Process] -> map Process2ServiceArchitecture();
+//Definiamo inoltre il mapping alla collaboration che comprende i participant del modello
+packagedElement += self.definitions[Definitions].rootElements[Collaboration] -> map Collaboration2Collaboration();
+
+}
+
+
+mapping bpmn_metamodel::Collaboration :: Collaboration2Collaboration() : soaml_metamodel::Collaboration{
+collaborationParticipant += self.participants[Participant] -> map Participant2Participant();
+collaborationMessage += self.messageFlows[MessageFlow] -> map MessageFlow2ServiceContract();
+}
+
+mapping bpmn_metamodel::Participant :: Participant2Participant() : soaml_metamodel::Participant{
+processRef := self.processRef -> map Process2ServiceArchitecture() -> asSequence() -> first();
+name := self.name;
+}
+
+mapping bpmn_metamodel::MessageFlow :: MessageFlow2ServiceContract() : soaml_metamodel::ServiceContract{
+name := self.name;
+
+participantSeq -> forEach(el) {
+	if (el.processRef = self.sourceRef[BaseElement].container()->asSequence()->first()) then {
+		provider := el -> map Participant2Participant() -> asSequence() -> first()
+	} endif;
+	if (el.processRef  = self.targetRef[BaseElement].container()->asSequence()->first()) then {
+		consumer := el -> map Participant2Participant() -> asSequence() -> first()
+	} endif;
+};
+
+}
+
+mapping bpmn_metamodel::Process :: Process2ServiceArchitecture() : soaml_metamodel::ServiceArchitecture{
+name := self.name;
+
+if (self.flowElements[StartEvent].eventDefinitions.metaClassName().equalsIgnoreCase("MessageEventDefinition")->asSequence()->first() = true) then {
+startWithMessage += self.flowElements[StartEvent] -> map StartEvent2AcceptCallAction();
+}endif;
+
+if (self.flowElements[StartEvent].eventDefinitions.metaClassName().equalsIgnoreCase("MessageEventDefinition")->asSequence()->first().oclIsInvalid()) then {
+startWithoutMessage += self.flowElements[StartEvent] -> map StartEvent2EventCallAction();
+}endif; 
+
+serviceTaskNode += self.flowElements[ServiceTask] -> map ServiceTask2CallOperationAction();
+controlFlowNode += self.flowElements[SequenceFlow] -> map SequenceFlow2ControlFlow();
+sinterfaceNode += self.flowElements[Task] -> map Task2ServiceInterface();
+intermediateCatchEventNode += self.flowElements[IntermediateCatchEvent] -> map IntermediateCatchEvent2ServiceChannel();
+exclusiveGatewayNode += self.flowElements[ExclusiveGateway] -> map ExclusiveGateway2ServiceChannel();
+
+end {log(self.flowElements[StartEvent].eventDefinitions.metaClassName().equalsIgnoreCase("MessageEventDefinition")->asSequence()->first().toString());}
+}
+
+mapping bpmn_metamodel::StartEvent :: StartEvent2AcceptCallAction() : AcceptCallAction{
+name := self.name;
+}
+
+mapping bpmn_metamodel::StartEvent :: StartEvent2EventCallAction() : AcceptEventAction{
+name := self.name;
+}
+
+mapping bpmn_metamodel::ServiceTask :: ServiceTask2CallOperationAction() : CallOperationAction{
+name := self.name;
+}
+
+mapping bpmn_metamodel::SequenceFlow :: SequenceFlow2ControlFlow() : ControlFlow{
+name := self.name;
+}
+
+mapping bpmn_metamodel::Task :: Task2ServiceInterface() : ServiceInterface{
+name := self.name;
+}
+
+mapping bpmn_metamodel::IntermediateCatchEvent :: IntermediateCatchEvent2ServiceChannel() : ServiceChannel{
+name := self.name;
+}
+
+mapping bpmn_metamodel::ExclusiveGateway :: ExclusiveGateway2ServiceChannel() : ServiceChannel{
+name := self.name;
+}
