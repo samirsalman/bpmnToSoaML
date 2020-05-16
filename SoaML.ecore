@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="SoaML" nsURI="http://www.example.org/SoaML" nsPrefix="SoaML">
+  <eClassifiers xsi:type="ecore:EClass" name="Attachment" eSuperTypes="#//Property"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Collaboration" eSuperTypes="uml.ecore#//Collaboration">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="collaborationParticipant"
+        upperBound="-1" eType="#//Participant" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="collaborationMessage" upperBound="-1"
+        eType="#//ServiceContract" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CollaborationUse" eSuperTypes="uml.ecore#//CollaborationUse"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ConnectableElement" eSuperTypes="uml.ecore#//ConnectableElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ServiceInterface" eSuperTypes="uml.ecore#//Class"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ServiceContract" eSuperTypes="#//Collaboration">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="provider" eType="#//Participant"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="consumer" eType="#//Participant"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RequestPort" eSuperTypes="#//ConnectableElement">
+    <eOperations name="validateType" eType="ecore:EDataType Types.ecore#//Boolean">
+      <eParameters name="a" eType="ecore:EDataType Ecore.ecore#//EDiagnosticChain"/>
+      <eParameters name="b">
+        <eGenericType eClassifier="ecore:EDataType Ecore.ecore#//EMap">
+          <eTypeArguments eClassifier="ecore:EDataType Ecore.ecore#//EJavaObject"/>
+          <eTypeArguments eClassifier="ecore:EDataType Ecore.ecore#//EJavaObject"/>
+        </eGenericType>
+      </eParameters>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="protocol" eType="#//ServiceInterface"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="required" upperBound="-1"
+        eType="ecore:EClass uml.ecore#//Interface" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="provided" upperBound="-1"
+        eType="ecore:EClass uml.ecore#//Interface" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ServicePort" eSuperTypes="#//ConnectableElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Participant" eSuperTypes="uml.ecore#//Class uml.ecore#//Component">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requisitions" upperBound="-1"
+        eType="#//RequestPort" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="services" upperBound="-1"
+        eType="#//ServicePort" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ServiceChannel" eSuperTypes="uml.ecore#//Connector"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ParticipantArchitecture" eSuperTypes="uml.ecore#//Class"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Agent" eSuperTypes="#//Participant"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Mileston" eSuperTypes="uml.ecore#//Comment"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Property" eSuperTypes="uml.ecore#//Property">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ServiceCapability" eSuperTypes="uml.ecore#//Class"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ServiceArchitecture" eSuperTypes="uml.ecore#//Class #//Collaboration">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="startWithMessage" ordered="false"
+        upperBound="-1" eType="ecore:EClass uml.ecore#//AcceptCallAction" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="startWithoutMessage" upperBound="-1"
+        eType="ecore:EClass uml.ecore#//AcceptEventAction" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="serviceTaskNode" upperBound="-1"
+        eType="ecore:EClass uml.ecore#//CallOperationAction" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="controlFlowNode" upperBound="-1"
+        eType="ecore:EClass uml.ecore#//ControlFlow" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requestPortNode" upperBound="-1"
+        eType="#//RequestPort" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateCatchEventNode"
+        upperBound="-1" eType="#//ServicePort" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ValueObject" eSuperTypes="uml.ecore#//Class"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MessageType" eSuperTypes="#//ValueObject">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SoaMLModel" eSuperTypes="uml.ecore#//Package"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Uses" eSuperTypes="uml.ecore#//Dependency"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Consumer" eSuperTypes="uml.ecore#//Class"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Provider" eSuperTypes="uml.ecore#//Class"/>
+</ecore:EPackage>
